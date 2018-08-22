@@ -1,0 +1,63 @@
+<div *ngFor="let note of notes">
+  <form [formGroup]="EditForm" (ngSubmit)="saveDetails(note.id)">
+    <input type="hidden" formControlName="Id" [(ngModel)] = "note.id" disabled/>
+    <label>Title:
+      <input formControlName="Title" [(ngModel)]="note.title" placeholder="Title" />
+    </label>
+    <label>Message:
+      <input type="text" formControlName="Message" [(ngModel)]="note.message" />
+    </label>
+
+    <div formArrayName="CheckList">
+      <h2>CheckList</h2>
+      <a (click)="addCheckList()">AddCheckList</a>
+
+      <div *ngFor="let checklist of CheckList.controls; let i = index">
+        <div [formGroupName]="i">
+          <div *ngIf="note.checkList[i] != null">
+          <label>CheckList:
+            <input type="text" formControlName="Checklist" [(ngModel)]="note.checkList[i].checklist" />
+          </label>
+          <label>IsChecked:
+            <input type="radio" class="form-control" value="true" formControlName="IsChecked"  checked/>Yes
+            <input type="radio" class="form-control" value="false" formControlName="IsChecked"/>No
+          </label>
+          </div>
+          <div *ngIf="note.checkList[i] == undefined">
+              <label>CheckList:
+                <input type="text" formControlName="Checklist"/>
+              </label>
+              <label>IsChecked:
+                <input type="radio" class="form-control" value="true" formControlName="IsChecked"  checked/>Yes
+                <input type="radio" class="form-control" value="false" formControlName="IsChecked"/>No
+              </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div formArrayName="Label">
+      <h2>CheckList</h2>
+      <a (click)="addLabel()">AddCheckList</a>
+      <div *ngFor="let label of Label.controls; let i = index">
+        <div [formGroupName]="i">
+          <div *ngIf="note.label[i] !=null">
+          <label>Label:
+            <input type="text" formControlName="label" [(ngModel)] = "note.label[i].label">
+          </label>
+          </div>
+          <div *ngIf="note.label[i] == undefined">
+              <label>Label:
+                <input type="text" formControlName="label">
+              </label>
+              </div>
+        </div>
+      </div>
+    </div>
+    <label>IsPinned:
+      <input type="radio" class="form-control" value="true" formControlName="Pinned" checked/>Yes
+      <input type="radio" class="form-control" value="false" formControlName="Pinned" />No
+    </label>
+    <button type="submit">submit</button>
+  </form>
+
+</div>
